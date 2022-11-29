@@ -5,6 +5,7 @@ defmodule Cloudex do
 
   @callback start(settings :: map) :: {:ok, pid}
   @callback upload(list | [String.t()], map) :: upload_result
+  @callback upload_file(String.t(), map) :: {:ok, %Cloudex.UploadedImage{}} | {:error, any}
   @callback upload_list_with_options(list(map), map) :: upload_result
   @callback delete([String.t()]) :: :ok
 
@@ -16,6 +17,9 @@ defmodule Cloudex do
   """
   @spec start(settings :: map) :: {:ok, pid}
   defdelegate start(settings), to: Cloudex.Settings
+
+  @spec upload_file(String.t(), map) :: {:ok, %Cloudex.UploadedImage{}} | {:error, any}
+  defdelegate upload_file(file_path, opts), to: Cloudex.CloudinaryApi
 
   @type upload_result ::
           {:ok, Cloudex.UploadedImage.t()}
